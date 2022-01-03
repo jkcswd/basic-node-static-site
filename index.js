@@ -13,22 +13,40 @@ const port = 8080;
 
 const server = http.createServer((req, res) => {
   const urlString = url.parse(req.url, true);
-  const fileName = '.' + urlString.pathname;
-  console.log(fileName)
-
-  fs.readFile(fileName, (err, data) => {
-    if (err) {
+  
+  if (urlString.path === '/'){
+    fs.readFile('index.html', (err, data) => {
+      if (err) { console.log(err) }
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html');
+      res.end(data);
+      return;
+    });
+  }else if (urlString.path === '/about'){
+    fs.readFile('about.html', (err, data) => {
+      if (err) { console.log(err) }
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html');
+      res.end(data);
+      return;
+    })
+  }else if (urlString.path === '/contact-me'){
+    fs.readFile('contact-me.html', (err, data) => {
+      if (err) { console.log(err) }
+      res.statusCode = 200;
+      res.setHeader('Content-Type', 'text/html');
+      res.end(data);
+      return;
+    })
+  }else {
+    fs.readFile('404.html', (err, data) => {
+      if (err) { console.log(err) }
       res.statusCode = 404;
       res.setHeader('Content-Type', 'text/html');
-      fs.readFile('404.html', (err, data) => {
-        res.end(data);
-      })
-    }
-    res.statusCode = 200;
-    res.setHeader('Content-Type', 'text/html');
-    res.end(data);
-  })
-
+      res.end(data);
+      return;
+    })
+  }
 });
 
 server.listen(port, () => {
