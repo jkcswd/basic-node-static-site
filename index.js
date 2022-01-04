@@ -5,50 +5,14 @@
   404.html should display any time the user tries to go to a page not listed above.
 */
 
-const http = require('http');
-const fs = require('fs');
-const url = require('url');
-
+const express = require('express');
+const app = express();
 const port = 8080;
 
-const server = http.createServer((req, res) => {
-  const urlString = url.parse(req.url, true);
-  
-  if (urlString.path === '/'){
-    fs.readFile('index.html', (err, data) => {
-      if (err) { console.log(err) }
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/html');
-      res.end(data);
-      return;
-    });
-  }else if (urlString.path === '/about'){
-    fs.readFile('about.html', (err, data) => {
-      if (err) { console.log(err) }
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/html');
-      res.end(data);
-      return;
-    })
-  }else if (urlString.path === '/contact-me'){
-    fs.readFile('contact-me.html', (err, data) => {
-      if (err) { console.log(err) }
-      res.statusCode = 200;
-      res.setHeader('Content-Type', 'text/html');
-      res.end(data);
-      return;
-    })
-  }else {
-    fs.readFile('404.html', (err, data) => {
-      if (err) { console.log(err) }
-      res.statusCode = 404;
-      res.setHeader('Content-Type', 'text/html');
-      res.end(data);
-      return;
-    })
-  }
+app.get('/', function(req, res) {
+  res.send()
 });
 
-server.listen(port, () => {
-  console.log(`Server running at port ${port}`);
+app.listen(port, function() {
+  console.log(`Listening on port ${port}!`)
 });
